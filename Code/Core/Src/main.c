@@ -135,40 +135,40 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  /*
 	  char message[20];
 	  sprintf(message, "%d\n", periode);
 	  HAL_UART_Transmit(&huart2, (const uint8_t*)message, sizeof(periode), HAL_MAX_DELAY);
-
+	  */
 
 	  // rafraichissement
 	  if (nb_electrodes_couvertes != old_nb_electrodes_couvertes || taille_objet != old_taille_objet) {
 		  // formatage
-		  char message_nb_electrodes[10];
-		  sprintf(message_nb_electrodes, "%d", nb_electrodes_couvertes);
+		  char message_nb_electrodes[40];
+		  sprintf(message_nb_electrodes, "Nb electrodes: %d  \n", nb_electrodes_couvertes);
 
-		  char message_taille_objet[10];
-		  sprintf(message_taille_objet, "%d", taille_objet);
+		  char message_taille_objet[] = "Taille objet:";
+		  char message_taille_incertitude[30];
+		  sprintf(message_taille_incertitude, "%d +- %d mm2    \n", taille_objet, incertitude_taille_objet);
 
-		  char message_incertitude_taille[10];
-		  sprintf(message_incertitude_taille, "%d", incertitude_taille_objet);
+		  //char message_incertitude_taille[10];
+		  //sprintf(message_incertitude_taille, "%d", incertitude_taille_objet);
 
 
 		  // affichage
 		  SSD1306_Clear();
 
 		  SSD1306_GotoXY (1, LIGNE*0);
-		  SSD1306_Puts ("Nb electrodes: ", &Font_7x10, 1);
 		  SSD1306_Puts (message_nb_electrodes, &Font_7x10, 1);
+		  //HAL_UART_Transmit(&huart2, (const uint8_t*)message_nb_electrodes, sizeof(message_nb_electrodes), HAL_MAX_DELAY);
 
 
 		  SSD1306_GotoXY (1, LIGNE*2);
-		  SSD1306_Puts ("Taille objet:", &Font_7x10, 1);
+		  SSD1306_Puts (message_taille_objet, &Font_7x10, 1);
 
 		  SSD1306_GotoXY (1,LIGNE*3);
-		  SSD1306_Puts (message_taille_objet, &Font_7x10, 1);
-		  SSD1306_Puts (" +- ", &Font_7x10, 1);
-		  SSD1306_Puts (message_incertitude_taille, &Font_7x10, 1);
-		  SSD1306_Puts (" mm2", &Font_7x10, 1);
+		  SSD1306_Puts (message_taille_incertitude, &Font_7x10, 1);
+		  HAL_UART_Transmit(&huart2, (const uint8_t*)message_taille_incertitude, sizeof(message_taille_incertitude), HAL_MAX_DELAY);
 
 		  SSD1306_UpdateScreen();
 
